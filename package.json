@@ -1,0 +1,19 @@
+{
+  "name": "backend-project",
+  "version": "1.0.0",
+  "description": "A backend project with professional development",
+  "keywords": [
+    "backend",
+    "javascript",
+    "node.js",
+    "express.js",
+    "react.js"
+  ],
+  "license": "ISC",
+  "author": "Chirag Jain",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
