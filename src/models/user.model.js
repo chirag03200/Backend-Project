@@ -92,4 +92,4 @@ userSchema.methods.generateRefreshToken = function(){
 }
 
 
-export const User = mangoose.model("User", userSchema)
+export const User = mangoose.model("User", userSchema)  
