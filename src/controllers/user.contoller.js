@@ -27,16 +27,16 @@ const registerUser = asyncHandler( async (req, res) => {
         throw new ApiError("All fields are required", 400)
     }
 
-    const existedUser = User.findOne({
-        $or : [{ usernaem }, { email }]
+    const existedUser = await User.findOne({
+        $or : [{ username }, { email }]
     })
 
     if (existedUser) {
-        throw new ApiError(409, 'User with email or username  already exists')
+        throw new ApiError('User with email or username  already exists', 409)
     }
 
-    const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    const avatarLocalPath = req.files?.avatar?.[0]?.path;
+    const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
 
     if (!avatarLocalPath) {
         throw new ApiError("Avatar file is required", 400)
@@ -63,11 +63,11 @@ const registerUser = asyncHandler( async (req, res) => {
     )
 
     if (!createdUser) {
-        throw new ApiError(500, "something went wrong while registering the user")
+        throw new ApiError("something went wrong while registering the user", 500)
     }
 
     return res.status(201).json(
-        new ApiResponse(200, createdUser, "User Registered Successfully")
+        new ApiResponse(201, createdUser, "User Registered Successfully")
     )
 
 } )
