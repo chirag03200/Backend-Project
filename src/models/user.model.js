@@ -1,10 +1,10 @@
-import mongoose, {Schema} from "mongoose";
-import jwt from "jsonwebtoken";
+import mongoose, { Schema } from "mongoose"
+import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 
 const userSchema = new Schema(
     {
-        username:{
+        username: {
             type: String,
             required: true,
             unique: true,
@@ -12,40 +12,46 @@ const userSchema = new Schema(
             trim: true,
             index: true
         },
+
         email: {
             type: String,
             required: true,
             unique: true,
             lowercase: true,
-            trim: true,
+            trim: true
         },
-        fullname :{
+
+        fullname: {
             type: String,
             required: true,
             trim: true,
-            index: true,
+            index: true
         },
+
         avatar: {
-            type: String, // cloudnary url
-            required: true,
-        },
-        coverImage: {
             type: String,
+            required: true
         },
+
+        coverImage: {
+            type: String
+        },
+
         watchHistory: [
             {
                 type: Schema.Types.ObjectId,
                 ref: "video"
             }
         ],
+
         password: {
             type: String,
-            required: [true, 'Password is required']
+            required: [true, "Password is required"]
         },
-        refreshtoken:{
+
+        refreshToken: {
             type: String
         }
-
     },
     {
         timestamps: true
@@ -53,19 +59,23 @@ const userSchema = new Schema(
 )
 
 
+// Password hashing
 userSchema.pre("save", async function () {
-    if (!this.isModified("password")) return;
+    if (!this.isModified("password")) return
 
-    this.password = await bcrypt.hash(this.password, 10);
+    this.password = await bcrypt.hash(this.password, 10)
 })
 
-userSchema.methods.isPasswordCorrect = async function
-(password){
+
+// Check password
+userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
 
-userSchema.methods.generateAccessToken = function(){
-    jwt.sign(
+
+// Generate Access Token
+userSchema.methods.generateAccessToken = function () {
+    return jwt.sign(
         {
             _id: this._id,
             email: this.email,
@@ -78,10 +88,13 @@ userSchema.methods.generateAccessToken = function(){
         }
     )
 }
-userSchema.methods.generateRefreshToken = function(){
+
+
+// Generate Refresh Token
+userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
-            _id: this._id,
+            _id: this._id
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
@@ -91,4 +104,4 @@ userSchema.methods.generateRefreshToken = function(){
 }
 
 
-export const User = mongoose.model("User", userSchema)  
+export const User = mongoose.model("User", userSchema)

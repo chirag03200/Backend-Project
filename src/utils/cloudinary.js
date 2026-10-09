@@ -37,4 +37,4 @@ export { uploadOnCloudinary }
 //     function (error, result) {
 //         console.log(result);
 //     }
-// );
+// );~
