@@ -43,7 +43,6 @@ const generateAccessAndRefreshTokens = async (userId) => {
     }
 }
 
-
 const registerUser = asyncHandler(async (req, res) => {
 
     const { fullname, email, username, password } = req.body
@@ -289,13 +288,13 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
     await user.save({validateBeforeSave : false})
 
     return res.status(200)
-    .json(new ApiError(200, "Password updated successfully"))
+    .json(new ApiResponse(200, "Password updated successfully"))
 })
 
 const getCurretnUser = asyncHandler(async(req,res) => {
     return res
     .status(200)
-    .json(200, req.User, "Current User fetched successfully")
+    .json(new ApiResponse(200, req.user, "Current User fetched successfully"))
 })
 
 const updateAccountDetails = asyncHandler(async(req, res) => {
@@ -384,6 +383,8 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
     )
 
 })
+
+
 
 export {
     registerUser,
